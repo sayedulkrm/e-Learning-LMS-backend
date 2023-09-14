@@ -32,7 +32,12 @@ app.use(
     })
 );
 
-app.get("/", (req, res) => {
+// importing Routes
+import userRouter from "./routes/user.route";
+
+app.use("/api/v1", userRouter);
+
+app.get("/", (req: Request, res: Response) => {
     res.send(
         `<h1>Server is Running. Click <a href="${process.env.FRONTEND_URL}">here</a> to go to Frontend </h1>`
     );
