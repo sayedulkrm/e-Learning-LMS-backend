@@ -7,6 +7,7 @@ import ejs from "ejs";
 import path from "path";
 import sendMail from "../utils/sendMail";
 import { sendToken } from "../utils/jwt";
+import { connectRedis } from "../config/redis";
 
 //
 //
@@ -181,6 +182,10 @@ export const logoutUser = catchAsyncError(
         try {
             res.cookie("access_token", "", { maxAge: 1 });
             res.cookie("refresh_token", "", { maxAge: 1 });
+
+            const userID = req.user?._id || "";
+
+            connectRedis.del(userID);
 
             res.status(200).json({
                 success: true,

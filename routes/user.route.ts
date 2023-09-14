@@ -5,6 +5,7 @@ import {
     logoutUser,
     registerUser,
 } from "../controllers/user.controller";
+import { authorizeRoles, isAuthenticated } from "../middlewares/auth";
 
 const userRoute = express.Router();
 
@@ -15,7 +16,9 @@ userRoute.route("/register").post(registerUser);
 userRoute.route("/login").post(loginUser);
 
 // Logout User
-userRoute.route("/logout").get(logoutUser);
+userRoute
+    .route("/logout")
+    .get(isAuthenticated, authorizeRoles("admin"), logoutUser);
 
 // Activate user
 userRoute.route("/activate-user").post(activateUser);
