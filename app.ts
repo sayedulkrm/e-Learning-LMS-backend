@@ -34,8 +34,10 @@ app.use(
 
 // importing Routes
 import userRouter from "./routes/user.route";
+import courseRoute from "./routes/course.route";
 
 app.use("/api/v1", userRouter);
+app.use("/api/v1", courseRoute);
 
 app.get("/", (req: Request, res: Response) => {
     res.send(
