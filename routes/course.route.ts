@@ -4,6 +4,8 @@ import { createCourse } from "../services/course.service";
 import {
     addAnswer,
     addQuestions,
+    addReplyToReview,
+    addReview,
     editCourse,
     getAllCourses,
     getCourseByValidUser,
@@ -34,7 +36,14 @@ courseRoute.route("/add-questions").put(isAuthenticated, addQuestions);
 // Add Answer Question + Send To mailbox
 courseRoute.route("/add-answer").put(isAuthenticated, addAnswer);
 
-//
+// Add Review on course
+courseRoute.route("/add-review-to-course/:id").post(isAuthenticated, addReview);
+
+// Add Answer to Review
+courseRoute
+    .route("/add-reply-to-review-to-course")
+    .post(isAuthenticated, authorizeRoles("admin"), addReplyToReview);
+
 //
 //
 //
