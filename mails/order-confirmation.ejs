@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Order Confirmation</title>
+        <style>
+            /* Add your CSS styles here */
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f5f5f5;
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+                padding: 20px;
+                background: linear-gradient(to bottom, #0073e6, #00c0ff);
+                border-radius: 5px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            }
+            .header {
+                text-align: center;
+                background-color: #0073e6;
+                color: #fff;
+                padding: 20px;
+                border-radius: 5px 5px 0 0;
+            }
+            .content {
+                padding: 20px;
+                background-color: #ffffff;
+            }
+            .button {
+                display: inline-block;
+                padding: 10px 20px;
+                background-color: #0073e6;
+                color: #fff;
+                text-decoration: none;
+                border-radius: 3px;
+            }
+
+            /* Responsive Styles */
+            @media screen and (max-width: 600px) {
+                .container {
+                    width: 100%;
+                    border-radius: 0;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1 style="font-size: 28px">Order Confirmation</h1>
+            </div>
+            <div class="content">
+                <p>Hello <%= user.name %>,</p>
+                <p style="font-size: 18px">
+                    Thank you for your order with EduMastery. Here are the
+                    details of your purchase:
+                </p>
+                <table style="width: 100%; border-collapse: collapse">
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ccc">
+                            Order ID:
+                        </td>
+                        <td style="padding: 10px; border: 1px solid #ccc">
+                            <%= order._id %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ccc">
+                            Course Name:
+                        </td>
+                        <td style="padding: 10px; border: 1px solid #ccc">
+                            <%= order.name %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ccc">
+                            Price:
+                        </td>
+                        <td style="padding: 10px; border: 1px solid #ccc">
+                            $<%= order.price %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ccc">
+                            Order Date:
+                        </td>
+                        <td style="padding: 10px; border: 1px solid #ccc">
+                            <%= order.date %>
+                        </td>
+                    </tr>
+                </table>
+                <p style="font-size: 18px">
+                    If you have any questions or need further assistance, please
+                    feel free to contact us.
+                </p>
+                <p style="font-size: 16px; color: #555">Best regards,</p>
+                <p style="font-size: 20px; color: #0073e6">EduMastery</p>
+            </div>
+        </div>
+    </body>
+</html>

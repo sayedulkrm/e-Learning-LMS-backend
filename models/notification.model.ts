@@ -5,7 +5,7 @@ export interface INotification extends Document {
     title: string;
     message: string;
     status: string;
-    userId: string;
+    userId?: string;
     courseId?: string;
     contentId?: string;
 }
@@ -27,7 +27,6 @@ const notificationSchema = new Schema<INotification>(
         },
         userId: {
             type: String,
-            required: true,
         },
         courseId: {
             type: String,
