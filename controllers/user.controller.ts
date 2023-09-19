@@ -12,7 +12,7 @@ import {
     sendToken,
 } from "../utils/jwt";
 import { connectRedis } from "../config/redis";
-import { getUserById } from "../services/user.service";
+import { getAllUsersService, getUserById } from "../services/user.service";
 import cloudinary from "cloudinary";
 
 //
@@ -450,6 +450,18 @@ export const updateUserProfilePicture = catchAsyncError(
                 message: "Profile picture updated successfully",
                 user,
             });
+        } catch (error: any) {
+            return next(new ErrorHandler(error.message, 500));
+        }
+    }
+);
+
+// Admin Only =========>
+
+export const getAllUsersAdmin = catchAsyncError(
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            getAllUsersService(res);
         } catch (error: any) {
             return next(new ErrorHandler(error.message, 500));
         }

@@ -1,6 +1,7 @@
 import express from "express";
 import {
     activateUser,
+    getAllUsersAdmin,
     getUserInformation,
     loginUser,
     logoutUser,
@@ -46,5 +47,10 @@ userRoute
 
 // Social Authentication
 userRoute.route("/social-auth").post(socialAuth);
+
+// Admin Routes
+userRoute
+    .route("/get-all-users")
+    .get(isAuthenticated, authorizeRoles("admin"), getAllUsersAdmin);
 
 export default userRoute;

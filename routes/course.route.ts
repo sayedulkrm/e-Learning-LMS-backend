@@ -8,6 +8,7 @@ import {
     addReview,
     editCourse,
     getAllCourses,
+    getAllCoursesAdmin,
     getCourseByValidUser,
     getSingleCourse,
 } from "../controllers/course.controller";
@@ -45,6 +46,10 @@ courseRoute
     .post(isAuthenticated, authorizeRoles("admin"), addReplyToReview);
 
 //
+courseRoute
+    .route("/get-all-courses")
+    .get(isAuthenticated, authorizeRoles("admin"), getAllCoursesAdmin);
+
 //
 //
 //
