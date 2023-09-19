@@ -36,10 +36,12 @@ app.use(
 import userRouter from "./routes/user.route";
 import courseRoute from "./routes/course.route";
 import orderRoute from "./routes/order.route";
+import notificationRoute from "./routes/notification.route";
 
 app.use("/api/v1", userRouter);
 app.use("/api/v1", courseRoute);
 app.use("/api/v1", orderRoute);
+app.use("/api/v1", notificationRoute);
 
 app.get("/", (req: Request, res: Response) => {
     res.send(
