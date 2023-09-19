@@ -6,6 +6,7 @@ import {
     addQuestions,
     addReplyToReview,
     addReview,
+    deleteCourseAdmin,
     editCourse,
     getAllCourses,
     getAllCoursesAdmin,
@@ -21,7 +22,8 @@ courseRoute
 courseRoute
     .route("/course/:id")
     .get(getSingleCourse) // get single course without purchase
-    .put(isAuthenticated, authorizeRoles("admin"), editCourse);
+    .put(isAuthenticated, authorizeRoles("admin"), editCourse)
+    .delete(isAuthenticated, authorizeRoles("admin"), deleteCourseAdmin);
 
 // Get All courses
 courseRoute.route("/courses").get(getAllCourses);

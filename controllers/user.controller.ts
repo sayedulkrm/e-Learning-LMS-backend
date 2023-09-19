@@ -12,8 +12,13 @@ import {
     sendToken,
 } from "../utils/jwt";
 import { connectRedis } from "../config/redis";
-import { getAllUsersService, getUserById } from "../services/user.service";
+import {
+    getAllUsersService,
+    getUserById,
+    updateUserRolesService,
+} from "../services/user.service";
 import cloudinary from "cloudinary";
+import mongoose from "mongoose";
 
 //
 //
@@ -462,6 +467,57 @@ export const getAllUsersAdmin = catchAsyncError(
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             getAllUsersService(res);
+        } catch (error: any) {
+            return next(new ErrorHandler(error.message, 500));
+        }
+    }
+);
+
+// Update Users Role =========> Admin Only =========>
+
+export const updateUserRole = catchAsyncError(
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { userId, role } = req.body;
+            if (!userId || !role) {
+                return next(
+                    new ErrorHandler("Please provide userId and role", 400)
+                );
+            }
+
+            // Check if userId is a valid ObjectId
+            if (!mongoose.Types.ObjectId.isValid(userId)) {
+                return next(new ErrorHandler("Invalid User Id ", 400));
+            }
+
+            updateUserRolesService(userId, role, res);
+        } catch (error: any) {
+            return next(new ErrorHandler(error.message, 500));
+        }
+    }
+);
+
+// Delete user --- only Admin
+
+export const deleteUserAdmin = catchAsyncError(
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { id } = req.params;
+
+            const user = await UserModel.findById(id);
+
+            if (!user) {
+                return next(new ErrorHandler("User not found", 404));
+            }
+
+            await user.deleteOne({ id });
+
+            await connectRedis.del(id);
+
+            res.status(200).json({
+                success: true,
+                message: "User deleted successfully",
+            });
         } catch (error: any) {
             return next(new ErrorHandler(error.message, 500));
         }

@@ -1,6 +1,7 @@
 import express from "express";
 import {
     activateUser,
+    deleteUserAdmin,
     getAllUsersAdmin,
     getUserInformation,
     loginUser,
@@ -11,6 +12,7 @@ import {
     updateUserInfo,
     updateUserPassword,
     updateUserProfilePicture,
+    updateUserRole,
 } from "../controllers/user.controller";
 import { authorizeRoles, isAuthenticated } from "../middlewares/auth";
 
@@ -52,5 +54,13 @@ userRoute.route("/social-auth").post(socialAuth);
 userRoute
     .route("/get-all-users")
     .get(isAuthenticated, authorizeRoles("admin"), getAllUsersAdmin);
+
+userRoute
+    .route("/update-user-role")
+    .put(isAuthenticated, authorizeRoles("admin"), updateUserRole);
+
+userRoute
+    .route("/delete-user/:id")
+    .delete(isAuthenticated, authorizeRoles("admin"), deleteUserAdmin);
 
 export default userRoute;
