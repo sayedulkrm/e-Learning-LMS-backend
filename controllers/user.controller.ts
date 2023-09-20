@@ -227,7 +227,12 @@ export const updateAccessToken = catchAsyncError(
             const session = await connectRedis.get(decoded._id);
 
             if (!session) {
-                return next(new ErrorHandler("Session Expired", 401));
+                return next(
+                    new ErrorHandler(
+                        "Session Expired. Please Login To Access",
+                        401
+                    )
+                );
             }
 
             const user = JSON.parse(session);
@@ -248,6 +253,13 @@ export const updateAccessToken = catchAsyncError(
 
             res.cookie("access_token", accessToken, accessTokenOptions);
             res.cookie("refresh_token", refreshToken, refreshTokenOptions);
+
+            await connectRedis.set(
+                user._id,
+                JSON.stringify(user),
+                "EX",
+                604800 // Which means 7 days expiration
+            );
 
             res.status(200).json({
                 success: true,

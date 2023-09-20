@@ -87,7 +87,7 @@ export const editCourse = catchAsyncError(
     }
 );
 
-// get sigle Course
+// get sigle Course ---> Without purchase
 export const getSingleCourse = catchAsyncError(
     async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -106,7 +106,12 @@ export const getSingleCourse = catchAsyncError(
                     "-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links"
                 );
 
-                await connectRedis.set(courseId, JSON.stringify(course));
+                await connectRedis.set(
+                    courseId,
+                    JSON.stringify(course),
+                    "EX",
+                    604800
+                );
 
                 if (!course) {
                     return next(new ErrorHandler("Course Not Found", 400));
@@ -140,7 +145,12 @@ export const getAllCourses = catchAsyncError(
                     "-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links"
                 );
 
-                await connectRedis.set("allCourses", JSON.stringify(courses));
+                await connectRedis.set(
+                    "allCourses",
+                    JSON.stringify(courses)
+                    // "EX",
+                    // 604800
+                );
 
                 res.status(200).json({
                     success: true,

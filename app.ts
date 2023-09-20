@@ -37,11 +37,15 @@ import userRouter from "./routes/user.route";
 import courseRoute from "./routes/course.route";
 import orderRoute from "./routes/order.route";
 import notificationRoute from "./routes/notification.route";
+import analyticsRoute from "./routes/analytics.route";
+import layoutRoute from "./routes/layout.route";
 
 app.use("/api/v1", userRouter);
 app.use("/api/v1", courseRoute);
 app.use("/api/v1", orderRoute);
 app.use("/api/v1", notificationRoute);
+app.use("/api/v1", analyticsRoute);
+app.use("/api/v1", layoutRoute);
 
 app.get("/", (req: Request, res: Response) => {
     res.send(
