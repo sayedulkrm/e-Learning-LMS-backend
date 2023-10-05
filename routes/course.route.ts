@@ -8,6 +8,7 @@ import {
     addReview,
     deleteCourseAdmin,
     editCourse,
+    generateVideoUrl,
     getAllCourses,
     getAllCoursesAdmin,
     getCourseByValidUser,
@@ -51,6 +52,8 @@ courseRoute
 courseRoute
     .route("/get-all-courses")
     .get(isAuthenticated, authorizeRoles("admin"), getAllCoursesAdmin);
+
+courseRoute.route("/getVdoCiperOTP").post(generateVideoUrl);
 
 //
 //

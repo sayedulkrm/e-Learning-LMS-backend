@@ -8,6 +8,7 @@ const ErrorMiddleware = (
     next: NextFunction
 ) => {
     err.statusCode = err.statusCode || 500;
+    // console.error(err);
 
     err.message = err.message || "Internal Server Error (ErrorMiddleware file)";
 

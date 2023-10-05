@@ -420,7 +420,19 @@ export const updateUserProfilePicture = catchAsyncError(
         try {
             const { avatar } = req.body;
 
+            // console.log("Herrs the avatar comes", avatar);
+
+            if (!avatar) {
+                return next(
+                    new ErrorHandler("Please upload a profile picture", 400)
+                );
+            }
+
+            // console.log("Before database operations");
+
             const user = await UserModel.findById(req.user?._id);
+
+            // console.log("After database operations");
 
             if (avatar && user) {
                 // If user have one Avatar
@@ -468,6 +480,7 @@ export const updateUserProfilePicture = catchAsyncError(
                 user,
             });
         } catch (error: any) {
+            // console.error("Heyyyy Am ERROR from error", error);
             return next(new ErrorHandler(error.message, 500));
         }
     }

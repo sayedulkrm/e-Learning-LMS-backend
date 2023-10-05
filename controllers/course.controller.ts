@@ -10,6 +10,7 @@ import ejs from "ejs";
 import path from "path";
 import sendMail from "../utils/sendMail";
 import NotificationModel from "../models/notification.model";
+import axios from "axios";
 
 // Upload course
 export const uploadCourse = catchAsyncError(
@@ -521,6 +522,32 @@ export const deleteCourseAdmin = catchAsyncError(
                 success: true,
                 message: "Course deleted successfully",
             });
+        } catch (error: any) {
+            return next(new ErrorHandler(error.message, 500));
+        }
+    }
+);
+
+//  Generate vidoe url
+export const generateVideoUrl = catchAsyncError(
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { videoId } = req.body;
+
+            const response = await axios.post(
+                `https://dev.vdocipher.com/api/videos/${videoId}/otp`,
+
+                { ttl: 300 },
+                {
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                        Authorization: `Apisecret ${process.env.VIDEOCIPER_API_SECRET}`,
+                    },
+                }
+            );
+
+            res.json(response.data);
         } catch (error: any) {
             return next(new ErrorHandler(error.message, 500));
         }
