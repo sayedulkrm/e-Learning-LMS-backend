@@ -25,7 +25,7 @@ userRoute.route("/register").post(registerUser);
 userRoute.route("/login").post(loginUser);
 
 // Logout User
-userRoute.route("/logout").get(isAuthenticated, logoutUser);
+userRoute.route("/logout").get(updateAccessToken, isAuthenticated, logoutUser);
 
 // Activate user
 userRoute.route("/activate-user").post(activateUser);
@@ -36,16 +36,17 @@ userRoute.route("/refresh").get(updateAccessToken);
 // Get user information And Update user information
 userRoute
     .route("/me")
-    .get(isAuthenticated, getUserInformation)
-    .put(isAuthenticated, updateUserInfo);
+    .get(updateAccessToken, isAuthenticated, getUserInformation);
 
 //  Update User Password
-userRoute.route("/me/updatepassword").put(isAuthenticated, updateUserPassword);
+userRoute
+    .route("/me/updatepassword")
+    .put(updateAccessToken, isAuthenticated, updateUserPassword);
 
 // Update Profile Picture
 userRoute
     .route("/me/updateprofilepicture")
-    .put(isAuthenticated, updateUserProfilePicture);
+    .put(updateAccessToken, isAuthenticated, updateUserProfilePicture);
 
 // Social Authentication
 userRoute.route("/social-auth").post(socialAuth);
@@ -53,14 +54,29 @@ userRoute.route("/social-auth").post(socialAuth);
 // Admin Routes
 userRoute
     .route("/get-all-users")
-    .get(isAuthenticated, authorizeRoles("admin"), getAllUsersAdmin);
+    .get(
+        updateAccessToken,
+        isAuthenticated,
+        authorizeRoles("admin"),
+        getAllUsersAdmin
+    );
 
 userRoute
     .route("/update-user-role")
-    .put(isAuthenticated, authorizeRoles("admin"), updateUserRole);
+    .put(
+        updateAccessToken,
+        isAuthenticated,
+        authorizeRoles("admin"),
+        updateUserRole
+    );
 
 userRoute
     .route("/delete-user/:id")
-    .delete(isAuthenticated, authorizeRoles("admin"), deleteUserAdmin);
+    .delete(
+        updateAccessToken,
+        isAuthenticated,
+        authorizeRoles("admin"),
+        deleteUserAdmin
+    );
 
 export default userRoute;

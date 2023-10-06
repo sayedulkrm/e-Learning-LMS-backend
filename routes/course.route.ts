@@ -13,12 +13,19 @@ import {
     getAllCoursesAdmin,
     getCourseByValidUser,
     getSingleCourse,
+    uploadCourse,
 } from "../controllers/course.controller";
+import { updateAccessToken } from "../controllers/user.controller";
 const courseRoute = express.Router();
 
 courseRoute
     .route("/createcourse")
-    .post(isAuthenticated, authorizeRoles("admin"), createCourse);
+    .post(
+        updateAccessToken,
+        isAuthenticated,
+        authorizeRoles("admin"),
+        uploadCourse
+    );
 
 courseRoute
     .route("/course/:id")
